@@ -36,7 +36,7 @@ function vpm_custom_gallery_output( $output, $attr, $instance = null ) {
 		'icontag'    => 'dt',
 		'captiontag' => 'dd',
 		'columns'    => 2,
-		'size'       => isset( $attr['size'] ) ? $attr['size'] : 'thumbnail', // defaults to thumbnail size
+		'size'       => 'thumbnail', // defaults to thumbnail size
 		'include'    => '',
 		'exclude'    => '',
 	);
@@ -79,9 +79,9 @@ function vpm_custom_gallery_output( $output, $attr, $instance = null ) {
 
 	// Define layout args
 	$selector   = "gallery-{$instance}"; // unique selector for CSS
-	$columns    = isset( $attr['columns'] ) ? intval( $attr['columns'] ) : 3; // default to 3 columns if not set
+	$columns    = $args['columns']; // default to 3 columns if not set
 	$item_width = $columns > 0 ? floor( 100 / $columns ) : 100;
-	$size_class = sanitize_html_class( isset( $attr['size'] ) ? $attr['size'] : 'thumbnail' ); // for CSS purposes
+	$size_class = sanitize_html_class( $args['size'] ); // for CSS purposes
 
 	// Gallery output
 	$inner_html = '';
@@ -92,7 +92,7 @@ function vpm_custom_gallery_output( $output, $attr, $instance = null ) {
 
 		// Fetch full url, make cropped URL
 		$img_full = wp_get_attachment_image_src( $id, 'full' );
-		$src_full = apply_filters( 'vpm_gallery_image_src_full', $img[0], $id );
+		$src_full = apply_filters( 'vpm_gallery_image_src_full', $img_full[0], $id );
 
 		// Fetch specific size
 		$img = wp_get_attachment_image_src( $id, $size );
