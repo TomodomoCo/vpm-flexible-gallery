@@ -42,7 +42,7 @@ function vpm_custom_gallery_output( $output, $attr, $instance = null ) {
 	);
 
 	// Filter the defaults
-	$defaults = apply_filter( 'vpm_gallery_defaults', $defaults );
+	$defaults = apply_filters( 'vpm_gallery_defaults', $defaults );
 
 	// Parse the args
 	$args = shortcode_atts( $defaults, $attr );
@@ -92,11 +92,11 @@ function vpm_custom_gallery_output( $output, $attr, $instance = null ) {
 
 		// Fetch full url, make cropped URL
 		$img_full = wp_get_attachment_image_src( $id, 'full' );
-		$src_full = apply_filter( 'vpm_gallery_image_src_full', $img[0], $id );
+		$src_full = apply_filters( 'vpm_gallery_image_src_full', $img[0], $id );
 
 		// Fetch specific size
 		$img = wp_get_attachment_image_src( $id, $size );
-		$src = apply_filter( 'vpm_gallery_image_src', $img[0], $id, $size );
+		$src = apply_filters( 'vpm_gallery_image_src', $img[0], $id, $size );
 
 		// Output of image item; default WP structure (dl.gallery-item > dt.gallery-icon > a > img)
 		$gallery_item_html = apply_filters( 'vpm_gallery_item_markup', '<dl class="gallery-item"><dt class="gallery-icon">%1$s</dt></dl>' );
