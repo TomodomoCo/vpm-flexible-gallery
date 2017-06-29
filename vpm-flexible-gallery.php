@@ -11,7 +11,10 @@ Author URI: https://www.vanpattenmedia.com/
 class VpmFlexibleGallery {
 
 	function __construct() {
+		add_filter( 'media_view_settings', array( $this, 'vpm_set_default_gallery_thumbnail_size' ) );
 		add_filter( 'post_gallery', array( $this, 'vpm_custom_gallery_output' ), 10, 2 );
+
+		add_filter( 'vpm_gallery_image_src', array( $this, 'vpm_override_gallery_image_src' ), 10, 2 );
 	}
 
 	/**
@@ -26,7 +29,6 @@ class VpmFlexibleGallery {
 
 		return $settings;
 	}
-	add_filter( 'media_view_settings', 'vpm_set_default_gallery_thumbnail_size');
 
 	/**
 	 * Custom gallery output for better image quality control
@@ -99,29 +101,13 @@ class VpmFlexibleGallery {
 		foreach( $attachments as $id => $attachment ) {
 
 			// Fetch full url, make cropped URL
-			$img  = wp_get_attachment_image_src( $id, 'full' );
-			$args = array(
-				'q'    => 60,
-				'crop' => 'faces',
-				'fit'  => 'crop',
-				'w'    => 500,
-				'h'    => 500,
-			);
-
-			$cropped = add_query_arg(
-				apply_filters( 'vpm_gallery_thumbnail_cropping', $args ),
-				$img[0]
-			);
-
-			$dimensions = array();
-			$dimensions['w'] = $args['w'];
-			$dimensions['h'] = $args['h'];
+			$data = apply_filters( 'vpm_gallery_image_src', array( $this, 'vpm_override_gallery_image_src' ), $id );
 
 			// Output of image item; default WP structure (dl.gallery-item > dt.gallery-icon > a > img)
 			$gallery_item_html = apply_filters( 'vpm_gallery_item_markup', '<dl class="gallery-item"><dt class="gallery-icon">%1$s</dt></dl>' );
 			$gallery_img_html  = apply_filters( 'vpm_gallery_img_markup', '<a href="%1$s"><img width="%3$s" height="%4$s" src="%2$s" class="attachment-thumbnail size-thumbnail" /></a>' );
 
-			$img_html   = sprintf( $gallery_img_html, $img[0], $cropped, $dimensions['w'], $dimensions['h'] );
+			$img_html   = sprintf( $gallery_img_html, $data['full_size_url'], $data['cropped_url'], $data['w'], $data['h'] );
 			$item_html  = sprintf( $gallery_item_html, $img_html );
 
 			// Append gallery item html
@@ -138,6 +124,37 @@ class VpmFlexibleGallery {
 		$output = sprintf( $wrapper_html, $selector, $instance, $columns, $size_class, $inner_html );
 
 		return $output;
+	}
+
+	/**
+	 * Allows an image URL/ID to be overriden
+	 *
+	 * @param int 		$id
+	 * @return array 	$data
+	 */
+	function vpm_override_gallery_image_src( $id ) {
+		$img  = wp_get_attachment_image_src( $id, 'full' );
+		$args = array(
+			'q'    => 60,
+			'crop' => 'faces',
+			'fit'  => 'crop',
+			'w'    => 500,
+			'h'    => 500,
+		);
+
+		$cropped = add_query_arg(
+			apply_filters( 'vpm_gallery_thumbnail_cropping', $args ),
+			$img[0]
+		);
+
+		$data = array(
+			'cropped_url'	=> $cropped,
+			'full_size_url' => $img[0],
+			'width' 		=> $args['w'],
+			'height' 		=> $args['h'],
+		);
+
+		return $data;
 	}
 }
 
