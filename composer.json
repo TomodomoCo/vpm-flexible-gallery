@@ -1,0 +1,16 @@
+{
+  "name": "vanpattenmedia/vpm-flexible-gallery",
+  "description": "Custom WordPress image galleries with many available filters for layout overrides.",
+  "keywords": ["wordpress", "plugin"],
+  "homepage": "https://www.vanpattenmedia.com/",
+  "authors": [
+    {
+      "name": "Chris Van Patten",
+      "homepage": "http://www.chrisvanpatten.com/"
+    }
+  ],
+  "type": "wordpress-plugin",
+  "require": {
+    "composer/installers": "~1.0"
+  }
+}
