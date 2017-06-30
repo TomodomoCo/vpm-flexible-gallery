@@ -95,7 +95,7 @@ function vpm_custom_gallery_output( $output, $attr, $instance = null ) {
 		$src_full = apply_filters( 'vpm_gallery_image_src_full', $img_full[0], $id );
 
 		// Fetch specific size
-		$img = wp_get_attachment_image_src( $id, isset( $size ) ? $size : 'full' );
+		$img = wp_get_attachment_image_src( $id, $size );
 		$src = apply_filters( 'vpm_gallery_image_src', $img_full[0], $id, $size );
 
 		// Output of image item; default WP structure (dl.gallery-item > dt.gallery-icon > a > img)
