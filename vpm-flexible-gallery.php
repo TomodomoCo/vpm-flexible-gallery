@@ -41,9 +41,6 @@ function vpm_custom_gallery_output( $output, $attr, $instance = null ) {
 		'exclude'    => '',
 	);
 
-	// Filter the defaults
-	$defaults = apply_filters( 'vpm_gallery_defaults', $defaults );
-
 	// Parse the args
 	$args = shortcode_atts( $defaults, $attr );
 
