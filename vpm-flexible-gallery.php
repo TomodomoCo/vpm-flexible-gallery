@@ -44,8 +44,12 @@ function vpm_custom_gallery_output( $output, $attr, $instance = null ) {
 	// Parse the args
 	$args = shortcode_atts( $defaults, $attr );
 
-	// TODO replace extract
-	extract( $args );
+	// Assign from passed args and default args
+	$order   = $args['order'];
+	$orderby = $args['orderby'];
+	$columns = $args['columns'];
+	$size    = $args['size'];
+	$include = $args['include'];
 
 	// Ensure the instance is an integer
 	$instance = intval( $instance );
@@ -59,8 +63,8 @@ function vpm_custom_gallery_output( $output, $attr, $instance = null ) {
 			'include'        => $include,
 			'post_type'      => 'attachment',
 			'post_mime_type' => 'image',
-			'order'          => isset( $order ) ? $order : 'ASC',
-			'orderby'        => isset( $orderby ) ? $orderby : 'menu_order'
+			'order'          => $order,
+			'orderby'        => $orderby
 		) );
 
 		// Grab attachment IDs
@@ -76,9 +80,7 @@ function vpm_custom_gallery_output( $output, $attr, $instance = null ) {
 
 	// Define layout args
 	$selector   = "gallery-{$instance}"; // unique selector for CSS
-	$columns    = $args['columns']; // default to 3 columns if not set
-	$item_width = $columns > 0 ? floor( 100 / $columns ) : 100;
-	$size_class = sanitize_html_class( $args['size'] ); // for CSS purposes
+	$size_class = sanitize_html_class( $size ); // for CSS purposes
 
 	// Gallery output
 	$inner_html = '';
