@@ -9,7 +9,7 @@ Author URI: https://www.vanpattenmedia.com/
 */
 
 
-add_filter( 'post_gallery', 'vpm_custom_gallery_output', 10, 2 );
+add_filter( 'post_gallery', 'vpm_custom_gallery_output', 10, 3 );
 
 /**
  * Custom gallery output for better image quality control
