@@ -3,13 +3,13 @@
 Plugin Name: VPM Flexible Gallery
 Plugin URI: http://www.vanpattenmedia.com/
 Description: Custom WordPress image galleries with many available filters for layout overrides.
-Version: 1.0
+Version: 1.0.1
 Author: Van Patten Media Inc.
 Author URI: https://www.vanpattenmedia.com/
 */
 
 
-add_filter( 'post_gallery', 'vpm_custom_gallery_output', 10, 2 );
+add_filter( 'post_gallery', 'vpm_custom_gallery_output', 10, 3 );
 
 /**
  * Custom gallery output for better image quality control
@@ -97,15 +97,24 @@ function vpm_custom_gallery_output( $output, $attr, $instance = null ) {
 		$img = wp_get_attachment_image_src( $id, $size );
 		$src = apply_filters( 'vpm_gallery_image_src', $img_full[0], $id, $size );
 
+		// Optional caption support
+		if ( $attachment->post_excerpt ) {
+			$caption_html = apply_filters( 'vpm_gallery_image_caption_markup', '<span class="wp-caption caption">' . $attachment->post_excerpt . '</span>' );
+		} else {
+			$caption_html = false;
+		}
+
 		// Output of image item; default WP structure (dl.gallery-item > dt.gallery-icon > a > img)
-		$gallery_item_html = apply_filters( 'vpm_gallery_item_markup', '<dl class="gallery-item"><dt class="gallery-icon">%1$s</dt></dl>' );
+		$gallery_item_html = apply_filters( 'vpm_gallery_item_markup', '<dl class="gallery-item"><dt class="gallery-icon">%1$s%2$s</dt></dl>' );
 		$gallery_img_html  = apply_filters( 'vpm_gallery_img_markup', '<a href="%1$s"><img src="%2$s" class="attachment-thumbnail"></a>' );
 
-		// Build the HTML
+		// Build the Image HTML
 		$img_html  = sprintf( $gallery_img_html, $src_full, $src );
-		$item_html = sprintf( $gallery_item_html, $img_html );
 
-		// Append gallery item html
+		// Build the image wrapper HTML
+		$item_html = sprintf( $gallery_item_html, $img_html, $caption_html );
+
+		// Append gallery item HTML
 		$inner_html .= $item_html;
 
 		// Add clear break div after every second image via modulo operator
