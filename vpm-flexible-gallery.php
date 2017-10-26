@@ -3,7 +3,7 @@
 Plugin Name: VPM Flexible Gallery
 Plugin URI: http://www.vanpattenmedia.com/
 Description: Custom WordPress image galleries with many available filters for layout overrides.
-Version: 1.0
+Version: 1.0.1
 Author: Van Patten Media Inc.
 Author URI: https://www.vanpattenmedia.com/
 */
