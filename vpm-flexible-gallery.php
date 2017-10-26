@@ -112,11 +112,7 @@ function vpm_custom_gallery_output( $output, $attr, $instance = null ) {
 		$img_html  = sprintf( $gallery_img_html, $src_full, $src );
 
 		// Build the image wrapper HTML
-		if ( $caption_html !== false ) {
-			$item_html = sprintf( $gallery_item_html, $img_html, $caption_html );
-		} else {
-			$item_html = sprintf( $gallery_item_html, $img_html, false );
-		}
+		$item_html = sprintf( $gallery_item_html, $img_html, $caption_html );
 
 		// Append gallery item HTML
 		$inner_html .= $item_html;
