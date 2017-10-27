@@ -103,7 +103,7 @@ function vpm_custom_gallery_output( $output, $attr, $instance = null ) {
 		// Output of image item; default WP structure (dl.gallery-item > dt.gallery-icon > a > img)
 		$gallery_item_html = apply_filters( 'vpm_gallery_item_markup', '<dl class="gallery-item"><dt class="gallery-icon">%1$s</dt>%2$s</dl>' );
 		$gallery_img_html  = apply_filters( 'vpm_gallery_img_markup', '<a href="%1$s"><img src="%2$s" class="attachment-thumbnail"></a>' );
-		$gallery_img_caption_html = apply_filters( 'vpm_gallery_img_caption_markup', '<dd class="wp-caption-text gallery-caption">%1$s</dd>');
+		$gallery_img_caption_html = apply_filters( 'vpm_gallery_img_caption_markup', '<dd class="wp-caption-text gallery-caption">%1$s</dd>' );
 
 		// Build the HTML
 		$img_html  = sprintf( $gallery_img_html, $src_full, $src );
