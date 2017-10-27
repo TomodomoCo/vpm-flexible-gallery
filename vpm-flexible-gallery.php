@@ -107,16 +107,14 @@ function vpm_custom_gallery_output( $output, $attr, $instance = null ) {
 
 		// Check if caption exists, otherwise caption empty html output
 		if ( ! $caption ) {
-
 			$gallery_caption_html = '';
-
 		}
 
 		// Build the HTML
 		$img_html     = sprintf( $gallery_img_html, $src_full, $src );
 		$caption_html = sprintf( $gallery_caption_html, $caption );
 		$item_html    = sprintf( $gallery_item_html, $img_html, $caption_html );
-		
+
 		// Append gallery item html
 		$inner_html .= $item_html;
 
