@@ -97,13 +97,23 @@ function vpm_custom_gallery_output( $output, $attr, $instance = null ) {
 		$img = wp_get_attachment_image_src( $id, $size );
 		$src = apply_filters( 'vpm_gallery_image_src', $img_full[0], $id, $size );
 
+		// Fetch image caption
+		$caption = $attachment->post_excerpt;
+
 		// Output of image item; default WP structure (dl.gallery-item > dt.gallery-icon > a > img)
-		$gallery_item_html = apply_filters( 'vpm_gallery_item_markup', '<dl class="gallery-item"><dt class="gallery-icon">%1$s</dt></dl>' );
-		$gallery_img_html  = apply_filters( 'vpm_gallery_img_markup', '<a href="%1$s"><img src="%2$s" class="attachment-thumbnail"></a>' );
+		$gallery_item_html    = apply_filters( 'vpm_gallery_item_markup', '<dl class="gallery-item"><dt class="gallery-icon">%1$s</dt>%2$s</dl>' );
+		$gallery_img_html     = apply_filters( 'vpm_gallery_img_markup', '<a href="%1$s"><img src="%2$s" class="attachment-thumbnail"></a>' );
+		$gallery_caption_html = apply_filters( 'vpm_gallery_img_caption_markup', '<dd class="wp-caption-text gallery-caption">%1$s</dd>' );
+
+		// Check if caption exists, otherwise caption empty html output
+		if ( ! $caption ) {
+			$gallery_caption_html = '';
+		}
 
 		// Build the HTML
-		$img_html  = sprintf( $gallery_img_html, $src_full, $src );
-		$item_html = sprintf( $gallery_item_html, $img_html );
+		$img_html     = sprintf( $gallery_img_html, $src_full, $src );
+		$caption_html = sprintf( $gallery_caption_html, $caption );
+		$item_html    = sprintf( $gallery_item_html, $img_html, $caption_html );
 
 		// Append gallery item html
 		$inner_html .= $item_html;
